@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Styling for the blue top bar */
+        .top-bar {
+            background-color: blue;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .fit-image {
+            max-width: 100%; /* Set the maximum width of the image to the container's width */
+            height: auto;   /* Maintain the image's aspect ratio */
+            display: block; /* Ensures proper spacing and alignment */
+            margin: 0 auto; /* Center the image horizontally within its container */
+        }
+        
+    </style>
+    <!-- Other head content -->
+    <script>
+        function myFunction() {
+            // Your code here
+            console.log("Button clicked!");
+            // Call any Django views or perform any desired actions
+        }
+        
+        // Attach the function to the button's click event
+        document.getElementById("run").addEventListener("click", myFunction);
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="path_to_bootstrap_js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.css">
+   
+
+</head>
+<body>
+    <!-- Blue top bar -->
+    <div class="top-bar">
+        BarrosoLab ==> OTTCP Clasification
+    </div>
+
+    <div class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-chart">
+                    <div class="card-header ">
+                        <div class="row">
+                            <div class="col-sm-6 text-left">
+                                
+                                <h2 class="card-title">Data Upload</h2>
+                                <h5 class="card-category">Upload Files</h5>
+                                <h5 class="card-category">{{randomForest.accuracy}}</h5>
+                                
+                            </div>
+                            <div class="col-sm-6">
+                                <form action="{% url 'custom_function' %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-fill btn-primary">Run Function</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            
+                            <!-- Your form content -->
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <button type="submit">Upload</button>
+                                
+                                
+                            </form>
+                            <canvas id="chartBig1">
+                                 
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h5 class="card-category">OutComes</h5>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card card-chart">
+                    <div class="card-header">
+                        <h5 class="card-category">Total Cells</h5>
+                        <h3 class="card-title"><i class="tim-icons icon-bell-55 text-primary"></i> {{kfda.number_of_cells}}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card card-chart">
+                    <div class="card-header">
+                        <h5 class="card-category">Random Forest Accuracy</h5>
+                        <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i>{{randomForest.accuracy}}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card card-chart">
+                    <div class="card-header">
+                        <h5 class="card-category">kFDA Accuracy</h5>
+                        <h3 class="card-title"><i class="tim-icons icon-send text-success"></i> {{kfda.accuracy}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+              <h5 class="title">Random Forest Graphs and Details</h5>
+            </div>
+            <div class="card-body">
+           
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h5 class="card-category">Total Cell Lines</h5>
+                                <h3 class="card-title"><i class="tim-icons icon-bell-55 text-primary"></i>{{kfda.number_of_cells}}</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <!-- <canvas id="chartLinePurple"></canvas> -->
+                                    <img src="https://iso-trials-regions.s3.amazonaws.com/static/{{randomForest.roc_curve_image}}" alt="Your Image Description" class="fit-image">
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h5 class="card-category">Random Forest Accuracy</h5>
+                                <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i>{{randomForest.accuracy}}</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <!-- <canvas id="CountryChart"></canvas> -->
+                                    <img src="https://iso-trials-regions.s3.amazonaws.com/static/{{randomForest.roc_curve_image}}" alt="Your Image Description" class="fit-image">
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h5 class="card-category">kFDA Accuracy</h5>
+                                <h3 class="card-title"><i class="tim-icons icon-send text-success"></i>{{kfda.accuracy}}</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <!-- <canvas id="chartLineGreen"></canvas> -->
+                                    <img src="https://iso-trials-regions.s3.amazonaws.com/static/{{randomForest.roc_curve_image}}" alt="Your Image Description" class="fit-image">
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+              <h5 class="title">kFDA Graphs and Details</h5>
+            </div>
+            <div class="card-body">
+           
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h5 class="card-category">Total Cell Lines</h5>
+                                <h3 class="card-title"><i class="tim-icons icon-bell-55 text-primary"></i> 763,215</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="chartLinePurple"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h5 class="card-category">Random Forest Accuracy</h5>
+                                <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> 3,500€</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="CountryChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h5 class="card-category">kFDA Accuracy</h5>
+                                <h3 class="card-title"><i class="tim-icons icon-send text-success"></i> 12,100K</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="chartLineGreen"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       
+        </div>
+        </div>
+
+ 
+
+ 
+
+    <!-- Include Dropzone.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/min/dropzone.min.js"></script>
+
+    <!-- Custom JavaScript to handle folder uploads -->
+    <script>
+        // Attach Dropzone to the form element with the ID "my-awesome-dropzone"
+        Dropzone.options.myAwesomeDropzone = {
+            paramName: "folder",
+            dictDefaultMessage: "Drop files here or click to upload (supports folders)",
+            uploadMultiple: true,
+            acceptedFiles: ".xlsx",
+            init: function() {
+                this.on("sending", function(file, xhr, formData) {
+                    formData.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+                });
+            }
+        };
+    </script>
+</body>
+</html>
